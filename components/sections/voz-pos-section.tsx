@@ -195,6 +195,9 @@ export function VozPosSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
             VozPos
           </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 italic">
+            Pronto liberaremos esta nueva versión.
+          </p>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Sistema de punto de venta controlado por voz, que te permite realizar ventas
             y gestionar tu inventario usando comandos por voz.

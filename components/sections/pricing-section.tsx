@@ -80,11 +80,11 @@ const monthlyPlansWithAccounting: PricingPlan[] = [
       "Gestión básica de inventario",
       "Soporte por correo electrónico",
       "Actualizaciones mensuales",
-      "📊 Contabilidad completa mensual",
-      "📋 Declaración F29 mensual",
-      "📞 Asesoría contable por WhatsApp",
-      "📁 Trámites SII incluidos",
-      "💼 Diagnóstico empresarial inicial"
+      "Contabilidad completa mensual",
+      "Declaración F29 mensual",
+      "Asesoría contable por WhatsApp",
+      "Trámites SII incluidos",
+      "Diagnóstico empresarial inicial"
     ],
     cta: "Comenzar Gratis"
   },
@@ -102,13 +102,13 @@ const monthlyPlansWithAccounting: PricingPlan[] = [
       "Reportes personalizados",
       "Soporte prioritario 24/5",
       "Actualizaciones semanales",
-      "📊 Contabilidad completa mensual",
-      "📋 Declaración F29 mensual",
-      "📞 Asesoría contable por WhatsApp",
-      "📁 Trámites SII incluidos",
-      "📈 Resumen ejecutivo mensual",
-      "💼 Planificación tributaria anual",
-      "📊 Prebalance anual (octubre)"
+      "Contabilidad completa mensual",
+      "Declaración F29 mensual",
+      "Asesoría contable por WhatsApp",
+      "Trámites SII incluidos",
+      "Resumen ejecutivo mensual",
+      "Planificación tributaria anual",
+      "Prebalance anual (octubre)"
     ],
     cta: "Prueba Gratuita",
     popular: true
@@ -128,14 +128,14 @@ const monthlyPlansWithAccounting: PricingPlan[] = [
       "Gestión multi-tienda",
       "Soporte 24/7 con gestor de cuenta",
       "Actualizaciones prioritarias",
-      "📊 Contabilidad completa mensual",
-      "📋 Declaración F29 mensual",
-      "📞 Asesoría contable por WhatsApp",
-      "📁 Trámites SII incluidos",
-      "📈 Resumen ejecutivo mensual",
-      "💼 Planificación tributaria anual",
-      "📊 Prebalance trimestral",
-      "👨‍💼 Contador asignado dedicado"
+      "Contabilidad completa mensual",
+      "Declaración F29 mensual",
+      "Asesoría contable por WhatsApp",
+      "Trámites SII incluidos",
+      "Resumen ejecutivo mensual",
+      "Planificación tributaria anual",
+      "Prebalance trimestral",
+      "Contador asignado dedicado"
     ],
     cta: "Contactar Ventas"
   }
@@ -155,7 +155,7 @@ const yearlyPlansWithAccounting: PricingPlan[] = monthlyPlansWithAccounting.map(
 
 export function PricingSection() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
-  const [planType, setPlanType] = useState<"basic" | "accounting">("accounting");
+  const [planType, setPlanType] = useState<"basic" | "accounting">("basic");
   const [showPhoneForm, setShowPhoneForm] = useState(false);
   
   const { ref, inView } = useInView({
@@ -216,18 +216,18 @@ export function PricingSection() {
           {/* Plan Type Toggle */}
           <div className="flex justify-center mb-8">
             <Tabs 
-              defaultValue="accounting" 
+              defaultValue="basic" 
               className="w-full max-w-2xl"
               onValueChange={(value) => setPlanType(value as "basic" | "accounting")}
             >
               <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="basic">Solo Plan</TabsTrigger>
                 <TabsTrigger value="accounting" className="text-sm">
                   Plan + Contabilidad
                   <Badge className="ml-2 bg-green-500 hover:bg-green-600" variant="secondary">
                     Recomendado
                   </Badge>
                 </TabsTrigger>
-                <TabsTrigger value="basic">Solo Plan</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
@@ -293,7 +293,7 @@ export function PricingSection() {
                           <span>Contabilidad: {plan.accountingPrice}</span>
                         </div>
                         <div className="mt-1 text-xs text-green-600 dark:text-green-400 font-medium">
-                          💰 Ahorras tiempo y dinero con todo incluido
+                          Ahorras tiempo y dinero con todo incluido
                         </div>
                       </div>
                     )}

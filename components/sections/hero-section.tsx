@@ -804,9 +804,9 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              Sistema inteligente de punto de venta con reconocimiento de voz, 
-              imágenes y asistente IA avanzado. Revoluciona la experiencia de 
-              ventas en tu negocio.
+              ¡Interactúa con todos nuestros sistemas inteligentes de punto de venta! 
+              Presiona "Todo" y descubre cómo revolucionamos la experiencia de ventas 
+              en tu negocio.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8"

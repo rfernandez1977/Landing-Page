@@ -5,6 +5,7 @@ import { DigiPosSection } from '@/components/sections/digi-pos-section';
 import { AIAssistantSection } from '@/components/sections/ai-assistant-section';
 import { TestimonialsSection } from '@/components/sections/testimonials-section';
 import { PricingSection } from '@/components/sections/pricing-section';
+import { AccountingTestimonialsSection } from '@/components/sections/accounting-testimonials-section';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <AIAssistantSection />
       <TestimonialsSection />
       <PricingSection />
+      <AccountingTestimonialsSection />
     </main>
   );
 }

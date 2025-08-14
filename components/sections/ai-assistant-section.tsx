@@ -217,9 +217,9 @@ export function AIAssistantSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
             Asistente IA
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 italic">
-            Pronto liberaremos esta innovación.
-          </p>
+          <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
+            "Pronto liberaremos esta innovación."
+          </h3>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Aprovecha el poder de la inteligencia artificial para obtener respuestas instantáneas,
             solucionar problemas y optimizar el funcionamiento de tu negocio.

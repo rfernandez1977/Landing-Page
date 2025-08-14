@@ -66,9 +66,9 @@ export function ViewPosSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-transparent bg-clip-text">
             ViewPos
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 italic">
-            Pronto liberaremos esta tecnología.
-          </p>
+          <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-transparent bg-clip-text">
+            "Pronto liberaremos esta tecnología."
+          </h3>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Sistema de reconocimiento visual que identifica productos automáticamente a través de la cámara, 
             agilizando el proceso de venta sin necesidad de códigos de barras.

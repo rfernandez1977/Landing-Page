@@ -20,6 +20,8 @@ export type PricingPlan = {
   features: string[];
   cta: string;
   popular?: boolean;
+  originalPrice?: string;
+  accountingPrice?: string;
 };
 
 export type FeatureItem = {

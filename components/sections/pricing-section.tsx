@@ -66,13 +66,96 @@ const monthlyPlans: PricingPlan[] = [
   }
 ];
 
+const monthlyPlansWithAccounting: PricingPlan[] = [
+  {
+    id: "starter-accounting",
+    name: "Starter + Contabilidad",
+    description: "Plan Starter con servicio contable completo incluido.",
+    price: "$94.900",
+    originalPrice: "$59.900",
+    accountingPrice: "$35.000",
+    features: [
+      "1 dispositivo",
+      "Módulo DigiPos",
+      "Gestión básica de inventario",
+      "Soporte por correo electrónico",
+      "Actualizaciones mensuales",
+      "📊 Contabilidad completa mensual",
+      "📋 Declaración F29 mensual",
+      "📞 Asesoría contable por WhatsApp",
+      "📁 Trámites SII incluidos",
+      "💼 Diagnóstico empresarial inicial"
+    ],
+    cta: "Comenzar Gratis"
+  },
+  {
+    id: "pro-accounting",
+    name: "Professional + Contabilidad",
+    description: "Plan Professional con servicio contable avanzado incluido.",
+    price: "$144.990",
+    originalPrice: "$89.990",
+    accountingPrice: "$55.000",
+    features: [
+      "3 dispositivos",
+      "Módulos DigiPos y ViewPos",
+      "Gestión avanzada de inventario",
+      "Reportes personalizados",
+      "Soporte prioritario 24/5",
+      "Actualizaciones semanales",
+      "📊 Contabilidad completa mensual",
+      "📋 Declaración F29 mensual",
+      "📞 Asesoría contable por WhatsApp",
+      "📁 Trámites SII incluidos",
+      "📈 Resumen ejecutivo mensual",
+      "💼 Planificación tributaria anual",
+      "📊 Prebalance anual (octubre)"
+    ],
+    cta: "Prueba Gratuita",
+    popular: true
+  },
+  {
+    id: "enterprise-accounting",
+    name: "Enterprise + Contabilidad",
+    description: "Plan Enterprise con servicio contable premium incluido.",
+    price: "$252.900",
+    originalPrice: "$179.900",
+    accountingPrice: "$73.000",
+    features: [
+      "Dispositivos ilimitados",
+      "Todos los módulos (DigiPos, ViewPos, VozPos)",
+      "Asistente IA avanzado",
+      "Integración con sistemas existentes",
+      "Gestión multi-tienda",
+      "Soporte 24/7 con gestor de cuenta",
+      "Actualizaciones prioritarias",
+      "📊 Contabilidad completa mensual",
+      "📋 Declaración F29 mensual",
+      "📞 Asesoría contable por WhatsApp",
+      "📁 Trámites SII incluidos",
+      "📈 Resumen ejecutivo mensual",
+      "💼 Planificación tributaria anual",
+      "📊 Prebalance trimestral",
+      "👨‍💼 Contador asignado dedicado"
+    ],
+    cta: "Contactar Ventas"
+  }
+];
+
 const yearlyPlans: PricingPlan[] = monthlyPlans.map(plan => ({
   ...plan,
   price: `$${parseInt(plan.price.substring(1)) * 10}`,
 }));
 
+const yearlyPlansWithAccounting: PricingPlan[] = monthlyPlansWithAccounting.map(plan => ({
+  ...plan,
+  price: `$${parseInt(plan.price.substring(1)) * 10}`,
+  originalPrice: `$${parseInt(plan.originalPrice!.substring(1)) * 10}`,
+  accountingPrice: `$${parseInt(plan.accountingPrice!.substring(1)) * 10}`,
+}));
+
 export function PricingSection() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const [planType, setPlanType] = useState<"basic" | "accounting">("accounting");
   const [showPhoneForm, setShowPhoneForm] = useState(false);
   
   const { ref, inView } = useInView({
@@ -80,7 +163,14 @@ export function PricingSection() {
     triggerOnce: false,
   });
 
-  const plans = billingCycle === "monthly" ? monthlyPlans : yearlyPlans;
+  const getPlans = () => {
+    if (planType === "accounting") {
+      return billingCycle === "monthly" ? monthlyPlansWithAccounting : yearlyPlansWithAccounting;
+    }
+    return billingCycle === "monthly" ? monthlyPlans : yearlyPlans;
+  };
+
+  const plans = getPlans();
 
   const comparePlans = [
     { feature: "Dispositivos", starter: "1", pro: "3", enterprise: "Ilimitados" },
@@ -123,6 +213,25 @@ export function PricingSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-12"
         >
+          {/* Plan Type Toggle */}
+          <div className="flex justify-center mb-8">
+            <Tabs 
+              defaultValue="accounting" 
+              className="w-full max-w-2xl"
+              onValueChange={(value) => setPlanType(value as "basic" | "accounting")}
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="accounting" className="text-sm">
+                  Plan + Contabilidad
+                  <Badge className="ml-2 bg-green-500 hover:bg-green-600" variant="secondary">
+                    Recomendado
+                  </Badge>
+                </TabsTrigger>
+                <TabsTrigger value="basic">Solo Plan</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
           {/* Billing Cycle Toggle */}
           <div className="flex justify-center mb-10">
             <Tabs 
@@ -176,6 +285,18 @@ export function PricingSection() {
                         /{billingCycle === "monthly" ? "mes" : "año"}
                       </span>
                     </div>
+                    {planType === "accounting" && plan.originalPrice && plan.accountingPrice && (
+                      <div className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="flex justify-between items-center">
+                          <span>Plan: {plan.originalPrice}</span>
+                          <span>+</span>
+                          <span>Contabilidad: {plan.accountingPrice}</span>
+                        </div>
+                        <div className="mt-1 text-xs text-green-600 dark:text-green-400 font-medium">
+                          💰 Ahorras tiempo y dinero con todo incluido
+                        </div>
+                      </div>
+                    )}
                   </CardHeader>
                   <CardContent className="flex-grow">
                     <ul className="space-y-3">
@@ -304,7 +425,7 @@ export function PricingSection() {
             ) : (
               <>
                 <h3 className="text-2xl font-bold text-white mb-3">
-                  ¿Necesitas un plan personalizado?
+                  ¿Tienes un erp o necesitas un plan personalizado?
                 </h3>
                 <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                   Si las opciones estándar no se ajustan a tus necesidades exactas, podemos crear un plan a la medida.

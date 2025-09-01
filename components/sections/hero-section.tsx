@@ -795,7 +795,7 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              Factura Movil<br />
+              Quick y TouchPos<br />
               <span className="text-cyan-300">El Futuro del POS</span>
             </motion.h1>
             <motion.p 
@@ -804,9 +804,9 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              ¡Interactúa con todos nuestros sistemas inteligentes de punto de venta! 
-              Presiona "Todo" y descubre cómo revolucionamos la experiencia de ventas 
-              en tu negocio.
+              Vive la experiencia.<br />
+              Interactúa con todos nuestros sistemas inteligentes de punto de venta y vive la experiencia.<br />
+              Presiona "Crear boleta" en todos nuestros módulos y descubre tú mismo todas las funcionalidades.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8"
@@ -913,14 +913,20 @@ export function HeroSection() {
                                   </div>
                                 ) : (
                                   <div 
-                                    className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
+                                    className="relative w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:animate-none transition-all duration-300 hover:scale-110 animate-bounce"
                                     onClick={generateTicket}
+                                    style={{animationDuration: '2s', animationIterationCount: 'infinite'}}
                                   >
+                                    {/* Efecto de brillo pulsante */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-white to-yellow-400 rounded-full opacity-0 animate-ping" style={{animationDuration: '3s'}}></div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                                    <div className="relative z-10">
                                     {documentType === 'boleta' ? (
                                       <Receipt size={28} className="text-white" />
                                     ) : (
                                       <FileText size={28} className="text-white" />
                                     )}
+                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -1060,25 +1066,7 @@ export function HeroSection() {
           </motion.div>
         </div>
         
-        {/* Scroll down indicator - MOVED LOWER */}
-        <motion.div 
-          className="absolute bottom-2 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 1 }}
-        >
-          <ScrollLink
-            to="vozpos"
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}
-            className="flex flex-col items-center text-white cursor-pointer"
-          >
-            <span className="text-sm mb-2">Descubre Más</span>
-            <ChevronDown className="animate-bounce" />
-          </ScrollLink>
-        </motion.div>
+
       </div>
     </section>
   );

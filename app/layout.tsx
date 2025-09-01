@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/theme-provider';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
@@ -26,9 +27,11 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

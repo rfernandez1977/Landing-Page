@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+.git
+.gitignore
+Dockerfile
+npm-debug.log
+.yarn
+.yarnrc
+.env*
+.DS_Store
+coverage
+.eslintcache
+.cache
+.tmp

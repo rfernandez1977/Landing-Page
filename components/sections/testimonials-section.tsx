@@ -91,12 +91,22 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-            Lo Que Dicen Nuestros Clientes
+            ¿Necesitas que te ayudemos con la contabilidad?
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Descubre cómo Factura Movil ha transformado negocios de diferentes industrias,
-            mejorando eficiencia, reduciendo costos y aumentando la satisfacción del cliente.
-          </p>
+          <h3 className="text-xl md:text-2xl font-semibold mb-4 text-slate-700 dark:text-slate-200">
+            Simplifica tu contabilidad y enfócate en crecer.
+          </h3>
+          <div className="relative">
+            <div className="absolute -top-8 -left-8 text-blue-200 dark:text-blue-800/30 opacity-60">
+              <Quote size={80} />
+            </div>
+            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto relative z-10">
+              Con nuestro servicio, tienes soporte prioritario 24/5 y actualizaciones semanales. Nos encargamos de tu contabilidad completa y la declaración mensual del F29, incluyendo todos los trámites del SII. Además, te ofrecemos asesoría por WhatsApp y una planificación tributaria anual para que siempre estés un paso adelante.
+            </p>
+            <div className="absolute -bottom-8 -right-8 text-blue-200 dark:text-blue-800/30 opacity-60 transform rotate-180">
+              <Quote size={80} />
+            </div>
+          </div>
         </motion.div>
 
         <div className="max-w-5xl mx-auto">

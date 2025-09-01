@@ -131,3 +131,67 @@
 .bg-pattern {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
+
+/* Estilos para React-PDF */
+.react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-pdf__Page {
+  margin: 1em 0;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.react-pdf__Page__canvas {
+  display: block;
+  user-select: none;
+}
+
+.react-pdf__Page__textContent {
+  display: none;
+}
+
+.react-pdf__Page__annotations {
+  display: none;
+}
+
+.react-pdf__message {
+  padding: 20px;
+  color: #666;
+  text-align: center;
+}
+
+.react-pdf__message--loading {
+  color: #0066cc;
+}
+
+.react-pdf__message--error {
+  color: #cc0000;
+}
+
+/* Estilos para controles de navegación */
+.pdf-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+}
+
+/* Responsive design para PDF */
+@media (max-width: 768px) {
+  .react-pdf__Page {
+    margin: 0.5em 0;
+  }
+  
+  .pdf-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

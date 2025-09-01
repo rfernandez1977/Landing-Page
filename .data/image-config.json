@@ -1,0 +1,25 @@
+{
+  "companies": {
+    "37": {
+      "companyId": 37,
+      "activities": [
+        "planta"
+      ],
+      "images": [
+        {
+          "id": "pexels_37_32579871_1756715732049",
+          "url": "https://images.pexels.com/photos/32579871/pexels-photo-32579871.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "planta",
+          "photographer": "Jack Beaudoin",
+          "pexelsId": 32579871,
+          "width": 3000,
+          "height": 2000,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        }
+      ],
+      "lastUpdated": 1756717902271
+    }
+  }
+}

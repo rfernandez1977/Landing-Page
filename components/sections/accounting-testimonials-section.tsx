@@ -93,11 +93,10 @@ export function AccountingTestimonialsSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">
-            Lo Que Dicen Nuestros Clientes Contables
+            Necesitas que te ayudemos con la contabilidad.
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Descubre cómo el Plan + Contabilidad ha transformado la gestión financiera de empresas,
-            ahorrando tiempo, reduciendo errores y optimizando la toma de decisiones.
+            Soporte prioritario 24/5 • Actualizaciones semanales • Contabilidad completa mensual • Declaración F29 mensual • Asesoría contable por WhatsApp • Trámites SII incluidos • Resumen ejecutivo mensual • Planificación tributaria anual • Prebalance anual (octubre)
           </p>
         </motion.div>
 

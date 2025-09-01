@@ -5,7 +5,9 @@ import { Link as ScrollLink } from "react-scroll";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, User, LogOut } from "lucide-react";
+import { LoginModal } from "@/components/ui/login-modal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { title: "Inicio", href: "hero" },
@@ -20,7 +22,9 @@ const navItems = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { isAuthenticated, user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,17 +78,38 @@ export function Header() {
               </ScrollLink>
             ))}
 
-            <Button
-              variant="outline"
-              className={cn(
-                "ml-4 transition-all",
-                isScrolled
-                  ? "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-                  : "border-white text-white hover:bg-white hover:text-blue-600"
-              )}
-            >
-              Ingresar
-            </Button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-2 ml-4">
+                <div className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                  <User size={16} className="text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                    {user?.name || 'Usuario'}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  className="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
+                >
+                  <LogOut size={16} className="mr-1" />
+                  Salir
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => setShowLoginModal(true)}
+                className={cn(
+                  "ml-4 transition-all",
+                  isScrolled
+                    ? "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                    : "border-white text-white hover:bg-white hover:text-blue-600"
+                )}
+              >
+                Ingresar
+              </Button>
+            )}
 
             <Button 
               variant="ghost"
@@ -144,13 +169,42 @@ export function Header() {
               </ScrollLink>
             ))}
             <div className="px-3 py-2">
-              <Button className="w-full" variant="default">
-                Ingresar
-              </Button>
+              {isAuthenticated ? (
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                    <User size={16} className="text-blue-600 dark:text-blue-400" />
+                    <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                      {user?.name || 'Usuario'}
+                    </span>
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    variant="outline"
+                    onClick={logout}
+                  >
+                    <LogOut size={16} className="mr-2" />
+                    Salir
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  className="w-full" 
+                  variant="default"
+                  onClick={() => setShowLoginModal(true)}
+                >
+                  Ingresar
+                </Button>
+              )}
             </div>
           </div>
         </div>
       )}
+      
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </header>
   );
 }

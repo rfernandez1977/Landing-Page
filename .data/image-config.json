@@ -3,23 +3,272 @@
     "37": {
       "companyId": 37,
       "activities": [
-        "planta"
+        "machine"
       ],
       "images": [
         {
-          "id": "pexels_37_32579871_1756715732049",
-          "url": "https://images.pexels.com/photos/32579871/pexels-photo-32579871.jpeg?auto=compress&cs=tinysrgb&h=350",
-          "activity": "planta",
-          "photographer": "Jack Beaudoin",
-          "pexelsId": 32579871,
-          "width": 3000,
-          "height": 2000,
+          "id": "pexels_37_171198_1756742889315",
+          "url": "https://images.pexels.com/photos/171198/pexels-photo-171198.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Digital Buggu",
+          "pexelsId": 171198,
+          "width": 5312,
+          "height": 2988,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_1078884_1756742889315",
+          "url": "https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Anamul Rezwan",
+          "pexelsId": 1078884,
+          "width": 5318,
+          "height": 3341,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_1145434_1756742889315",
+          "url": "https://images.pexels.com/photos/1145434/pexels-photo-1145434.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Anamul Rezwan",
+          "pexelsId": 1145434,
+          "width": 3666,
+          "height": 2444,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_159298_1756742889315",
+          "url": "https://images.pexels.com/photos/159298/gears-cogs-machine-machinery-159298.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Pixabay",
+          "pexelsId": 159298,
+          "width": 5655,
+          "height": 3775,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_159275_1756742889315",
+          "url": "https://images.pexels.com/photos/159275/macro-focus-cogwheel-gear-159275.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Pixabay",
+          "pexelsId": 159275,
+          "width": 5383,
+          "height": 3511,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_60064_1756742889315",
+          "url": "https://images.pexels.com/photos/60064/clock-time-hour-minute-60064.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Pixabay",
+          "pexelsId": 60064,
+          "width": 3072,
+          "height": 2304,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 37
+        },
+        {
+          "id": "pexels_37_48799_1756742889315",
+          "url": "https://images.pexels.com/photos/48799/drill-milling-milling-machine-drilling-48799.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "machine",
+          "photographer": "Pixabay",
+          "pexelsId": 48799,
+          "width": 6016,
+          "height": 4016,
           "isPlaceholder": false,
           "quality": "high",
           "companyId": 37
         }
       ],
-      "lastUpdated": 1756717902271
+      "lastUpdated": 1756835948825
+    },
+    "487": {
+      "companyId": 487,
+      "activities": [
+        "cake"
+      ],
+      "images": [
+        {
+          "id": "pexels_487_291528_1756762836140",
+          "url": "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Abhinav Goswami",
+          "pexelsId": 291528,
+          "width": 2564,
+          "height": 2160,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1702373_1756762836140",
+          "url": "https://images.pexels.com/photos/1702373/pexels-photo-1702373.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Brent Keane",
+          "pexelsId": 1702373,
+          "width": 3337,
+          "height": 2437,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1055272_1756762836140",
+          "url": "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Vojtech Okenka",
+          "pexelsId": 1055272,
+          "width": 4000,
+          "height": 4000,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_140831_1756762836140",
+          "url": "https://images.pexels.com/photos/140831/pexels-photo-140831.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Jasmine lew",
+          "pexelsId": 140831,
+          "width": 5760,
+          "height": 3840,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1854652_1756762836140",
+          "url": "https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Elli",
+          "pexelsId": 1854652,
+          "width": 3456,
+          "height": 5184,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1414234_1756762836140",
+          "url": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "ERIC MUFASA",
+          "pexelsId": 1414234,
+          "width": 5184,
+          "height": 3456,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1291712_1756762836140",
+          "url": "https://images.pexels.com/photos/1291712/pexels-photo-1291712.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Matheus Guimarães",
+          "pexelsId": 1291712,
+          "width": 2999,
+          "height": 1999,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1038711_1756762836140",
+          "url": "https://images.pexels.com/photos/1038711/pexels-photo-1038711.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Jeremy Wong",
+          "pexelsId": 1038711,
+          "width": 3648,
+          "height": 5472,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1055271_1756762836140",
+          "url": "https://images.pexels.com/photos/1055271/pexels-photo-1055271.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Vojtech Okenka",
+          "pexelsId": 1055271,
+          "width": 4000,
+          "height": 4000,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1126359_1756762836140",
+          "url": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Suzy Hazelwood",
+          "pexelsId": 1126359,
+          "width": 5800,
+          "height": 3376,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_806363_1756762836140",
+          "url": "https://images.pexels.com/photos/806363/pexels-photo-806363.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Ronmar Lacamiento",
+          "pexelsId": 806363,
+          "width": 3805,
+          "height": 2249,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1889651_1756762836140",
+          "url": "https://images.pexels.com/photos/1889651/pexels-photo-1889651.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Dalila Dalprat",
+          "pexelsId": 1889651,
+          "width": 3456,
+          "height": 5184,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_1793037_1756762836140",
+          "url": "https://images.pexels.com/photos/1793037/pexels-photo-1793037.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "lil artsy",
+          "pexelsId": 1793037,
+          "width": 4000,
+          "height": 6000,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        },
+        {
+          "id": "pexels_487_227432_1756762836140",
+          "url": "https://images.pexels.com/photos/227432/pexels-photo-227432.jpeg?auto=compress&cs=tinysrgb&h=350",
+          "activity": "cake",
+          "photographer": "Antonio Quagliata",
+          "pexelsId": 227432,
+          "width": 3504,
+          "height": 2336,
+          "isPlaceholder": false,
+          "quality": "high",
+          "companyId": 487
+        }
+      ],
+      "lastUpdated": 1756762859556
     }
   }
 }

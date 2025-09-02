@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { PricingPlan } from "@/types";
-import { PhoneInputForm } from "@/components/sections/hero-section";
+import { ContactForm } from "@/components/ui/contact-form";
 
 const monthlyPlans: PricingPlan[] = [
   {
@@ -420,7 +420,7 @@ export function PricingSection() {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 lg:p-12 shadow-xl">
             {showPhoneForm ? (
               <div className="flex justify-center">
-                <PhoneInputForm onClose={() => setShowPhoneForm(false)} />
+                <ContactForm onClose={() => setShowPhoneForm(false)} />
               </div>
             ) : (
               <>

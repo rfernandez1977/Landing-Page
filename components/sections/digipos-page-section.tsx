@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Search, ShoppingBag, DollarSign, CreditCard, Receipt, BarChart, RefreshCw, Loader2, FileText, CheckCircle2, User, X, ChevronDown, Building2, Mail, Shield } from "lucide-react";
@@ -171,6 +171,9 @@ export function DigiPosPageSection() {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [showPdfPreview, setShowPdfPreview] = useState(false);
   
+  // Ref para evitar logs repetitivos de impuestos
+  const lastTaxLogRef = useRef<string>('');
+  
 
   
   useEffect(() => {
@@ -264,22 +267,7 @@ export function DigiPosPageSection() {
     return DEFAULT_IMAGES[index % DEFAULT_IMAGES.length];
   };
 
-  // Escuchar eventos de actualización de configuración de imágenes
-  useEffect(() => {
-    const handleImagesConfigUpdated = (event: CustomEvent) => {
-      console.log('🔄 Evento de actualización de imágenes recibido:', event.detail);
-      
-      // Forzar recarga de productos desde API para asegurar actualización completa
-      console.log('🌐 Recargando productos desde API tras guardar configuración de imágenes...');
-      loadProductsFromAPI();
-    };
-
-    window.addEventListener('imagesConfigUpdated', handleImagesConfigUpdated as EventListener);
-    
-    return () => {
-      window.removeEventListener('imagesConfigUpdated', handleImagesConfigUpdated as EventListener);
-    };
-  }, [products, selectedCompany]);
+  // Función para formatear precio de centavos a moneda chilena (números enteros)
 
   // Función para formatear precio de centavos a moneda chilena (números enteros)
   const formatPrice = (priceInCents: number): string => {
@@ -336,8 +324,8 @@ export function DigiPosPageSection() {
     };
   };
 
-  // Función para cargar productos desde la API
-  const loadProductsFromAPI = async () => {
+  // Función para cargar productos desde la API (memoizada)
+  const loadProductsFromAPI = useCallback(async () => {
     setIsLoadingProducts(true);
     setProductsError(null);
     
@@ -403,10 +391,10 @@ export function DigiPosPageSection() {
     } finally {
       setIsLoadingProducts(false);
     }
-  };
+  }, []);
 
-  // Función para buscar productos desde la API
-  const searchProductsFromAPI = async (searchTerm: string) => {
+  // Función para buscar productos desde la API (memoizada)
+  const searchProductsFromAPI = useCallback(async (searchTerm: string) => {
     console.log('🔍 INICIO BÚSQUEDA:', { 
       searchTerm, 
       timestamp: new Date().toISOString(),
@@ -537,7 +525,24 @@ export function DigiPosPageSection() {
       console.log('🏁 FINALIZANDO BÚSQUEDA - Limpiando estado de carga');
       setIsSearchingProducts(false);
     }
-  };
+  }, []);
+
+  // Escuchar eventos de actualización de configuración de imágenes
+  useEffect(() => {
+    const handleImagesConfigUpdated = (event: CustomEvent) => {
+      console.log('🔄 Evento de actualización de imágenes recibido:', event.detail);
+      
+      // Forzar recarga de productos desde API para asegurar actualización completa
+      console.log('🌐 Recargando productos desde API tras guardar configuración de imágenes...');
+      loadProductsFromAPI();
+    };
+
+    window.addEventListener('imagesConfigUpdated', handleImagesConfigUpdated as EventListener);
+    
+    return () => {
+      window.removeEventListener('imagesConfigUpdated', handleImagesConfigUpdated as EventListener);
+    };
+  }, [loadProductsFromAPI]);
 
   // Cargar productos al montar el componente
   useEffect(() => {
@@ -624,37 +629,47 @@ export function DigiPosPageSection() {
     });
   };
 
-  const calculateTotal = () => {
+  const total = useMemo(() => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  }, [cart]);
 
-  const calculateOtherTaxes = () => {
+  const calculateTotal = () => total;
+
+  // Memoizar cálculos para evitar recálculos innecesarios
+  const otherTaxes = useMemo(() => {
+    // Solo calcular si hay items en el carrito
+    if (cart.length === 0) return 0;
+    
     const total = cart.reduce((total, item) => {
       // Usar directamente la información de impuestos del carrito
       if (item.category?.otherTax) {
         const itemTotal = item.price * item.quantity;
         const otherTaxAmount = itemTotal * (item.category.otherTax.percent / 100);
-        console.log('💰 Calculando impuesto adicional para', item.name, ':', {
-          itemTotal,
-          taxPercent: item.category.otherTax.percent,
-          taxAmount: otherTaxAmount
-        });
         return total + otherTaxAmount;
       }
       return total;
     }, 0);
     
-    console.log('💰 TOTAL IMPUESTOS ADICIONALES:', total);
+    // Solo mostrar log si el total cambió para evitar spam
+    if (total > 0 && lastTaxLogRef.current !== `${total}`) {
+      console.log('💰 TOTAL IMPUESTOS ADICIONALES:', total);
+      lastTaxLogRef.current = `${total}`;
+    }
     return total;
-  };
+  }, [cart]);
 
-  const calculateIVA = () => {
-    return calculateTotal() * 0.19; // 19% IVA
-  };
+  const iva = useMemo(() => {
+    return total * 0.19; // 19% IVA
+  }, [total]);
 
-  const calculateGrandTotal = () => {
-    return calculateTotal() + calculateIVA() + calculateOtherTaxes();
-  };
+  const grandTotal = useMemo(() => {
+    return total + iva + otherTaxes;
+  }, [total, iva, otherTaxes]);
+
+  // Funciones legacy para compatibilidad (ahora usan valores memoizados)
+  const calculateOtherTaxes = () => otherTaxes;
+  const calculateIVA = () => iva;
+  const calculateGrandTotal = () => grandTotal;
 
   // Funciones para edición de precios y cantidades
   const startEditing = (itemId: number, currentPrice: number, currentQuantity: number) => {
@@ -738,8 +753,8 @@ export function DigiPosPageSection() {
 
     // Validar datos del cliente para facturas
     if (documentType === 'factura' && savedClientData) {
-      const requiredFields = ['name', 'code', 'address'];
-      const missingFields = requiredFields.filter(field => !savedClientData[field]);
+      const requiredFields = ['name', 'code', 'address'] as const;
+      const missingFields = requiredFields.filter(field => !savedClientData[field as keyof Client]);
       
       if (missingFields.length > 0) {
         const errorMsg = `Datos de cliente incompletos: ${missingFields.join(', ')}`;
@@ -1066,6 +1081,16 @@ export function DigiPosPageSection() {
               duration: 8000, // 8 segundos para que el usuario pueda leer
             });
             throw new Error('Error: No hay folios disponibles para generar documentos. Contacte al administrador del sistema.');
+          } else if (responseData.code === '850' && responseData.details?.includes('Error al crear factura')) {
+            // Error específico de factura - puede ser un problema temporal
+            console.warn('⚠️ Error 850: Error al crear factura - puede ser temporal');
+            toast({
+              title: "⚠️ Error Temporal",
+              description: "Error al crear la factura. Esto puede ser temporal. Intente nuevamente en unos segundos.",
+              variant: "destructive",
+              duration: 6000,
+            });
+            throw new Error('Error temporal al crear factura - Código 850');
           } else if (responseData.details) {
             // Mostrar otros errores de la API
             toast({
@@ -1095,10 +1120,10 @@ export function DigiPosPageSection() {
       setGenerationError((error as Error)?.message || 'Error al generar documento');
       
       // Si no se mostró un toast específico, mostrar uno genérico
-      if (!error.message.includes('folios disponibles')) {
+      if ((error as Error)?.message && !(error as Error).message.includes('folios disponibles')) {
         toast({
           title: "❌ Error al Generar Documento",
-          description: error.message || "Error desconocido al generar el documento",
+          description: (error as Error).message || "Error desconocido al generar el documento",
           variant: "destructive",
           duration: 5000,
         });
@@ -1117,9 +1142,11 @@ export function DigiPosPageSection() {
     }
   };
 
-  const fetchDocumentPDF = async (id: number, folio: string, validationHash?: string) => {
+  const fetchDocumentPDF = async (id: number, folio: string, validationHash?: string, retryCount = 0): Promise<void> => {
+    const maxRetries = 2;
+    
     try {
-      console.log('🔄 INICIANDO OBTENCIÓN DE PDF...');
+      console.log(`🔄 INICIANDO OBTENCIÓN DE PDF (intento ${retryCount + 1}/${maxRetries + 1})...`);
       console.log('📋 Tipo de documento:', documentType === 'factura' ? '🧾 FACTURA' : '🎫 BOLETA');
       console.log('📋 Parámetros:', { id, folio, companyId: API_CONFIG.COMPANY_ID, validationHash });
       
@@ -1133,14 +1160,17 @@ export function DigiPosPageSection() {
         console.log('🔐 Hash SHA1 calculado localmente:', hash);
       }
 
-      const pdfUrl = `${API_ENDPOINTS.PDF}/${id}?v=${hash}`;
-      console.log('🌐 URL del PDF:', pdfUrl);
-      console.log('📤 NOTA: Sin headers - acceso público según documentación');
+      // IMPORTANTE: Usar nuestro proxy API para evitar problemas de CORS
+      const proxyUrl = `/api/proxy?url=${encodeURIComponent(`${API_ENDPOINTS.PDF}/${id}?v=${hash}`)}`;
+      console.log('🌐 URL del proxy:', proxyUrl);
+      console.log('🔐 URL original:', `${API_ENDPOINTS.PDF}/${id}?v=${hash}`);
 
-      // IMPORTANTE: No enviar headers de autenticación - acceso público
-      const pdfResponse = await fetch(pdfUrl, {
-        method: 'GET'
-        // Sin headers - los documentos son de acceso público
+      // Usar el proxy con headers apropiados para PDF
+      const pdfResponse = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/pdf, text/html, */*'
+        }
       });
 
       console.log('📥 Respuesta del servidor:', {
@@ -1160,12 +1190,30 @@ export function DigiPosPageSection() {
           // Blob muy pequeño o HTML, probablemente una página de error
           console.warn('⚠️ Blob sospechoso, verificando contenido...');
           const text = await pdfBlob.text();
+          
+          // Detectar diferentes tipos de errores
           if (text.includes('No autorizado') || text.includes('Unauthorized')) {
             console.error('❌ El servidor devolvió una página de error de autorización');
             throw new Error('Error de autorización: Hash inválido o documento no encontrado');
           }
-          console.error('❌ El servidor devolvió HTML en lugar de PDF');
-          throw new Error('El servidor devolvió HTML en lugar de PDF - Verificar hash');
+          
+          if (text.includes('Error') || text.includes('error') || text.includes('Error al crear factura')) {
+            console.error('❌ El servidor devolvió una página de error HTML');
+            throw new Error('El servidor devolvió una página de error HTML');
+          }
+          
+          if (text.includes('<html') || text.includes('<body')) {
+            console.error('❌ El servidor devolvió HTML en lugar de PDF');
+            throw new Error('El servidor devolvió HTML en lugar de PDF - Verificar hash');
+          }
+          
+          // Si no es ninguno de los errores conocidos, verificar si parece ser un PDF válido
+          if (text.length > 1000 && !text.includes('<')) {
+            console.log('✅ El contenido parece ser válido, continuando...');
+          } else {
+            console.error('❌ Contenido no válido detectado');
+            throw new Error('Contenido no válido recibido del servidor');
+          }
         }
         
         // Crear URL del blob para mostrar el PDF
@@ -1177,16 +1225,36 @@ export function DigiPosPageSection() {
         console.log('✅ PDF configurado para visualización de', documentType === 'factura' ? 'FACTURA' : 'BOLETA');
       } else {
         console.error('❌ Error del servidor al obtener PDF:', pdfResponse.status, pdfResponse.statusText);
-        const errorText = await pdfResponse.text();
-        console.error('📄 Contenido del error:', errorText);
+        
+        // Solo intentar leer como texto si no es un PDF
+        let errorText = '';
+        const contentType = pdfResponse.headers.get('content-type');
+        if (contentType && !contentType.includes('application/pdf')) {
+          try {
+            errorText = await pdfResponse.text();
+            console.error('📄 Contenido del error:', errorText);
+          } catch (textError) {
+            console.error('⚠️ No se pudo leer el contenido del error');
+          }
+        }
+        
         throw new Error(`Error del servidor: ${pdfResponse.status} - ${pdfResponse.statusText}`);
       }
     } catch (error) {
-      console.error('💥 Error al obtener PDF:', error);
+      console.error(`💥 Error al obtener PDF (intento ${retryCount + 1}):`, error);
       console.error('💥 Tipo de error:', error?.constructor?.name);
       console.error('💥 Mensaje:', (error as Error)?.message);
       
-      setGenerationError(`Error al obtener el PDF: ${(error as Error)?.message || 'Error desconocido'}`);
+      // Intentar reintento si no hemos alcanzado el máximo
+      if (retryCount < maxRetries) {
+        console.log(`🔄 Reintentando en 2 segundos... (${retryCount + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        return fetchDocumentPDF(id, folio, validationHash, retryCount + 1);
+      }
+      
+      // Si se agotaron los reintentos, mostrar error y crear PDF de prueba
+      console.error('💥 Se agotaron los reintentos, creando PDF de prueba...');
+      setGenerationError(`Error al obtener el PDF después de ${maxRetries + 1} intentos: ${(error as Error)?.message || 'Error desconocido'}`);
       
       // Para desarrollo, crear un PDF de prueba solo si es necesario
       console.log('🔄 Creando PDF de prueba para desarrollo...');
@@ -1308,7 +1376,7 @@ export function DigiPosPageSection() {
         body: JSON.stringify(requestBody)
       });
 
-      let responseData;
+      let responseData: any;
       try {
         responseData = await response.json();
       } catch (parseError) {
@@ -1419,7 +1487,7 @@ export function DigiPosPageSection() {
 
   const handleCancelClient = () => {
     setShowClientForm(false);
-    setClientData({ rut: '', name: '', address: '', selectedAddressIndex: 0 });
+    setClientData({ rut: '', name: '', address: '', email: '', selectedAddressIndex: 0 });
     setSearchState({
       isSearching: false,
       results: [],
@@ -1644,9 +1712,9 @@ export function DigiPosPageSection() {
       }
     } catch (error) {
       console.error('💥 ERROR CAPTURADO:', error);
-      console.error('💥 TIPO DE ERROR:', error.constructor.name);
-      console.error('💥 MENSAJE DE ERROR:', error.message);
-      console.error('💥 STACK TRACE:', error.stack);
+      console.error('💥 TIPO DE ERROR:', (error as Error)?.constructor?.name || 'Unknown');
+      console.error('💥 MENSAJE DE ERROR:', (error as Error)?.message || 'No message');
+      console.error('💥 STACK TRACE:', (error as Error)?.stack || 'No stack');
       
       // Para desarrollo, usar datos de prueba cuando la API no esté disponible
       const mockClients: Client[] = [
@@ -1771,6 +1839,7 @@ export function DigiPosPageSection() {
       rut: client.code,
       name: client.name,
       address: client.address,
+      email: client.email || '',
       selectedAddressIndex: 0
     });
     setSearchQuery(client.name);
@@ -2050,11 +2119,14 @@ export function DigiPosPageSection() {
       });
       console.log('✅ Token principal:', testResponse1.status === 200 ? 'VÁLIDO' : 'INVÁLIDO');
       
-      // Test 2: Verificar acceso público a PDF (sin token)
-      console.log('🔓 Probando acceso público a PDF (sin autenticación)...');
-      const testResponse2 = await fetch(`${apiConfig.baseUrl}/document/toPdf/1?v=test`, {
-        method: 'GET'
-        // Sin headers - acceso público
+      // Test 2: Verificar acceso público a PDF (usando proxy para evitar CORS)
+      console.log('🔓 Probando acceso público a PDF (usando proxy)...');
+      const proxyUrl = `/api/proxy?url=${encodeURIComponent(`${apiConfig.baseUrl}/document/toPdf/1?v=test`)}`;
+      const testResponse2 = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       console.log('✅ Acceso público PDF:', testResponse2.status === 200 ? 'FUNCIONA' : 'NO FUNCIONA');
       
@@ -2581,7 +2653,13 @@ export function DigiPosPageSection() {
                                       size="icon"
                                       variant="outline"
                                       className="h-6 w-6"
-                                      onClick={() => addToCart(item)}
+                                      onClick={() => {
+                                        const originalProduct = products.find(p => p.id === item.id) || 
+                                                              searchProductsResults.find(p => p.id === item.id);
+                                        if (originalProduct) {
+                                          addToCart(originalProduct);
+                                        }
+                                      }}
                                     >
                                       +
                                     </Button>
@@ -2794,7 +2872,7 @@ export function DigiPosPageSection() {
                                       setClientSaved(false);
                                       setSavedClientData(null);
                                       setSearchState(prev => ({ ...prev, selectedClient: null }));
-                                      setClientData({ rut: '', name: '', address: '', selectedAddressIndex: 0 });
+                                      setClientData({ rut: '', name: '', address: '', email: '', selectedAddressIndex: 0 });
                                       setSearchQuery('');
                                     }}
                                   >
